@@ -14,6 +14,7 @@ st.set_page_config(page_title="Simulador", page_icon="🧬", layout="wide")
 
 def dashboard():
     collect_data()
+    st.markdown(Utils.tooltip_style,unsafe_allow_html=True)
 
     if 'formulario' not in st.session_state:
         show_formulario()

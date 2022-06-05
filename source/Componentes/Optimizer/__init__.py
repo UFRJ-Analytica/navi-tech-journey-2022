@@ -6,6 +6,8 @@ import numpy as np
 import Componentes.Utils as Utils
 from Componentes.Utils import dark_blue, pink
 
+import Componentes.HTML as html
+
 class Option:
     def __init__(self, k_sustentabilidade, gasto_kwh):
         self.k_sustentabilidade = k_sustentabilidade
@@ -74,26 +76,27 @@ class Option:
             Utils.global_state["distribuidora"]:  "Distribuidora"
         }
 
-    def show_card(self, titulo, cor):
-        st.markdown(f"""
-            <p style='color: {cor}; font-size: 20px; text-align: center'>
-            <b>{titulo}</b>
-            </p>""", 
-            unsafe_allow_html=True
-        )
-        st.markdown(f"""
-            <p style='color: {cor}; font-size: 40px; text-align: center'>
-            <b>R$ {int(self.custo_final)}/mês</b>
-            </p>""", 
-            unsafe_allow_html=True
-        )
 
-        st.markdown(f"<p style='color: {cor}; font-size: 26px;'><b>Composição:</b></p>", unsafe_allow_html=True)
-        st.markdown(f"<p style='color: {cor}; font-size: 16px;'><b>Geração: R$ ?</b></p>", unsafe_allow_html=True)
-        st.markdown(f"<p style='color: {cor}; font-size: 16px;'><b>Transmissão: R$ ?</b></p>", unsafe_allow_html=True)
-        st.markdown(f"<p style='color: {cor}; font-size: 16px;'><b>Distribuição: R$ ?</b></p>", unsafe_allow_html=True)
-        # st.markdown(f"<p style='color: {cor}; font-size: 16px;'><b>Encargos: R$ {round(self.encargos,2)}</b></p>", unsafe_allow_html=True)
-        st.markdown(f"<p style='color: {cor}; font-size: 16px;'><b>Impostos: R$ {round(self.impostos,2)}</b></p>", unsafe_allow_html=True)
+    def show_card(self, titulo, cor):
+        html._mount_card_title(cor,titulo,int(self.custo_final))
+        st.markdown(f"""<p style='color: {cor}; font-size: 26px;'><b>Composição:</b></p>""", unsafe_allow_html=True)
+        
+
+        if titulo == "Atual Gasto Energético":
+            dict_data = {
+                "Tarifa de Energia": "?",
+                "Tarifa de Uso do Sistema de Distribuição": "?"
+            }
+            html._mount_card_rows(cor,dict_data,has_tooltips=True)
+        else:
+            dict_data = {
+                "Geração": "?",
+                "Transmissão": "?",
+                "Distribuição": "?",
+                "Encargos" : "?",
+                "Impostos": round(self.impostos,2)
+            }
+            html._mount_card_rows(cor,dict_data)
 
         st.markdown(f"<p style='color: {cor}; font-size: 26px;'><b>Composição:</b></p>", unsafe_allow_html=True)
         for comp in self.contratando.keys():
