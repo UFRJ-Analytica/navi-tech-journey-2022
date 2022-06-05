@@ -1,6 +1,7 @@
 import streamlit as st
+
+import Componentes.Utils as Utils
 from Componentes.Utils import dark_blue, pink
-from Componentes.Data import empresas
 
 def show_introducao():
     st.markdown(f"""
@@ -27,8 +28,9 @@ def show_formulario():
             unsafe_allow_html=True
         )
 
-        distribuidora = st.selectbox("Distribuidora Atual", empresas.keys())
-        gasto = st.number_input('Gasto de Energia Mensal em kWh')
+        empresas = Utils.global_state["tarifas_distribuidoras"]["SigAgente"].values
+        Utils.global_state["distribuidora"] = st.selectbox("Distribuidora Atual", empresas)
+        Utils.global_state["gasto"] = st.number_input('Gasto de Energia Mensal em kWh')
 
         submitted = st.form_submit_button("Realizar Simulação")
         if submitted:

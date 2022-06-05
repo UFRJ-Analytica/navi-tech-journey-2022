@@ -1,0 +1,6 @@
+pandas
+numpy
+cvxpy
+streamlit==1.10.0
+plotly
+requests
