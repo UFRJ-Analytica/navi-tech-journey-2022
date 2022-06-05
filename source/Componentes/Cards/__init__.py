@@ -2,7 +2,7 @@ import streamlit as st
 
 import Componentes.Utils as Utils
 from Componentes.Utils import dark_blue, pink
-from Componentes.Optimizer import Option
+from Componentes.Optimizer import Option, CurrentOption
 
 def show_introducao():
     st.markdown(f"""
@@ -26,7 +26,7 @@ def show_cards():
     with col1:
         with st.form("CurrentOption"):
             gasto_kwh = Utils.global_state["gasto"]
-            atual = Option(None, gasto_kwh)
+            atual = CurrentOption(gasto_kwh)
             atual.current_option()
             atual.show_card("Atual Gasto Energético", dark_blue)
             st.form_submit_button("Eu Quero!")
