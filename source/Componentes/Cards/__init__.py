@@ -1,18 +1,18 @@
 import streamlit as st
 
 import Componentes.Utils as Utils
-from Componentes.Utils import dark_blue, pink
+from Componentes.Utils import mustard_yellow, green,white
 from Componentes.Optimizer import Option, CurrentOption
 
 def show_introducao():
     st.markdown(f"""
-        <h1 style='color: {pink};'>
+        <h1 style='color: {mustard_yellow};'>
         Simulador Energético
         </h1>""", 
         unsafe_allow_html=True
     )
     st.markdown(f"""
-        <p style='color: {dark_blue}; font-size: 24px'>
+        <p style='color: {white}; font-size: 24px'>
         <b>Simule o quanto você poderia economizar com um mercado livre de energia.</b>
         </p><br><br>""", 
         unsafe_allow_html=True
@@ -28,7 +28,7 @@ def show_cards():
             gasto_kwh = Utils.global_state["gasto"]
             atual = CurrentOption(gasto_kwh)
             atual.current_option()
-            atual.show_card("Atual Gasto Energético", dark_blue)
+            atual.show_card("Atual Gasto Energético", mustard_yellow)
             st.form_submit_button("Eu Quero!")
 
     with col2:
@@ -36,7 +36,7 @@ def show_cards():
             gasto_kwh = Utils.global_state["gasto"]
             atual = Option(0, gasto_kwh)
             atual.optimize_option()
-            atual.show_card("Opção 2: Econômico", pink)
+            atual.show_card("Opção 2: Econômico", green)
             st.form_submit_button("Eu Quero!")
 
     with col3:
@@ -44,7 +44,7 @@ def show_cards():
             gasto_kwh = Utils.global_state["gasto"]
             atual = Option(1, gasto_kwh)
             atual.optimize_option()
-            atual.show_card("Opção 2: Sustentabilidade", pink)
+            atual.show_card("Opção 2: Sustentabilidade", green)
             st.form_submit_button("Eu Quero!")
             
     with col4:
@@ -52,5 +52,5 @@ def show_cards():
             gasto_kwh = Utils.global_state["gasto"]
             atual = Option(0.5, gasto_kwh)
             atual.optimize_option()
-            atual.show_card("Opção 3: Equilibrada", pink)
+            atual.show_card("Opção 3: Equilibrada", green)
             st.form_submit_button("Eu Quero!")

@@ -5,6 +5,7 @@ import numpy as np
 
 import Componentes.Utils as Utils
 from Componentes.Utils import dark_blue, pink
+import Componentes.HTML as html
 
 class Option:
     def __init__(self, k_sustentabilidade, gasto_kwh):
@@ -58,27 +59,18 @@ class Option:
         }
 
     def show_card(self, titulo, cor):
-        st.markdown(f"""
-            <p style='color: {cor}; font-size: 20px; text-align: center'>
-            <b>{titulo}</b>
-            </p>""", 
-            unsafe_allow_html=True
-        )
-        st.markdown(f"""
-            <p style='color: {cor}; font-size: 40px; text-align: center'>
-            <b>R$ {int(self.custo_final)}/mês</b>
-            </p>""", 
-            unsafe_allow_html=True
-        )
-
+        html._mount_card_title(cor,titulo,int(self.custo_final))
         st.markdown(f"<p style='color: {cor}; font-size: 26px;'><b>Composição:</b></p>", unsafe_allow_html=True)
 
-        st.markdown(f"<p style='color: {cor}; font-size: 16px;'><b>Geração:</b> R$ {round(self.custo_energia,2)}</p>", unsafe_allow_html=True)
-        st.markdown(f"<p style='color: {cor}; font-size: 16px;'><b>Distribuição:</b> R$ {round(self.custo_distribuicao,2)}</p>", unsafe_allow_html=True)
-        st.markdown(f"<p style='color: {cor}; font-size: 16px;'><b>Transmissão:</b> R$ {round(self.custo_transmissao,2)}</p>", unsafe_allow_html=True)
-        st.markdown(f"<p style='color: {cor}; font-size: 16px;'><b>Encargos:</b> R$ {round(self.encargos,2)}</p>", unsafe_allow_html=True)
-        st.markdown(f"<p style='color: {cor}; font-size: 16px;'><b>Impostos:</b> R$ {round(self.impostos,2)}</p>", unsafe_allow_html=True)
-        st.markdown(f"<p style='color: {cor}; font-size: 16px;'><b>Outros:</b> R$ {round(self.outros,2)}</p>", unsafe_allow_html=True)
+        dict_data = {
+            'Geração': round(self.custo_energia,2),
+            'Distribuição': round(self.custo_distribuicao,2),
+            'Transmissão': round(self.custo_transmissao,2),
+            'Encargos': round(self.encargos,2),
+            'Impostos': round(self.impostos,2),
+            'Outros': round(self.outros,2),
+        }
+        html._mount_card_rows(cor,dict_data,has_tooltips=True)
 
         st.markdown(f"<p style='color: {cor}; font-size: 26px;'><b>Contratando:</b></p>", unsafe_allow_html=True)
 
@@ -114,25 +106,16 @@ class CurrentOption():
         }
 
     def show_card(self, titulo, cor):
-        st.markdown(f"""
-            <p style='color: {cor}; font-size: 20px; text-align: center'>
-            <b>{titulo}</b>
-            </p>""", 
-            unsafe_allow_html=True
-        )
-        st.markdown(f"""
-            <p style='color: {cor}; font-size: 40px; text-align: center'>
-            <b>R$ {int(self.custo_final)}/mês</b>
-            </p>""", 
-            unsafe_allow_html=True
-        )
+        html._mount_card_title(cor,titulo,int(self.custo_final))
+        st.markdown(f"""<p style='color: {cor}; font-size: 26px;'><b>Composição:</b></p>""", unsafe_allow_html=True)
 
-        st.markdown(f"<p style='color: {cor}; font-size: 26px;'><b>Composição:</b></p>", unsafe_allow_html=True)
-
-        st.markdown(f"<p style='color: {cor}; font-size: 16px;'><b>Tarifa de Energia:</b> R$ {round(self.tarifa_energia,2)}</p>", unsafe_allow_html=True)
-        st.markdown(f"<p style='color: {cor}; font-size: 16px;'><b>Tarifa de Uso do Sistema de Distribuição:</b> R$ {round(self.tarifa_sistema,2)}</p>", unsafe_allow_html=True)
-        st.markdown(f"<p style='color: {cor}; font-size: 16px;'><b>Impostos:</b> R$ {round(self.impostos,2)}</p>", unsafe_allow_html=True)
-
+        dict_data = {
+            "Tarifa de Energia": round(self.tarifa_energia,2),
+            "Tarifa de Uso do Sistema de Distribuição": round(self.tarifa_sistema,2),
+            "Impostos":round(self.impostos,2)
+        }
+        html._mount_card_rows(cor,dict_data,has_tooltips=True)
+        
         st.markdown(f"<p style='color: {cor}; font-size: 26px;'><b>Contratando:</b></p>", unsafe_allow_html=True)
 
         for comp in self.contratando.keys():
